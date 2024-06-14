@@ -61,7 +61,7 @@ public class Animal
         using (var connection = BancodeDados.GetConnection())
         {
             connection.Open();
-            string query = "SELECT * FROM Animal";
+            string query = "SELECT * FROM animais";
             MySqlCommand cmd = new MySqlCommand(query, connection);
             MySqlDataReader reader = cmd.ExecuteReader();
 
