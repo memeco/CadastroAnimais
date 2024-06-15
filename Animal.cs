@@ -88,7 +88,7 @@ public class Animal
         using (var connection = BancodeDados.GetConnection())
         {
             connection.Open();
-            string query = "UPDATE Animal SET Nome = @Nome, Especie = @Especie, Raca = @Raca, Idade = @Idade, Peso = @Peso, Cor = @Cor WHERE ID_Animal = @ID_Animal";
+            string query = "UPDATE animais SET Nome = @Nome, Especie = @Especie, Raca = @Raca, Idade = @Idade, Peso = @Peso, Cor = @Cor WHERE ID_Animal = @ID_Animal";
             MySqlCommand cmd = new MySqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@Nome", Nome);
             cmd.Parameters.AddWithValue("@Especie", Especie);
@@ -101,15 +101,17 @@ public class Animal
         }
     }
 
+
     public static void DeleteAnimal(int id)
     {
         using (var connection = BancodeDados.GetConnection())
         {
             connection.Open();
-            string query = "DELETE FROM Animal WHERE ID_Animal = @ID_Animal";
+            string query = "DELETE FROM animais WHERE ID_Animal = @ID_Animal";
             MySqlCommand cmd = new MySqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@ID_Animal", id);
             cmd.ExecuteNonQuery();
         }
     }
+
 }
