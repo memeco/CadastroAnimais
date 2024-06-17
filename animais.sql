@@ -12,5 +12,6 @@ CREATE TABLE animais (
     Raca VARCHAR(50) NOT NULL,
     Idade INT NOT NULL,
     Peso DECIMAL(5, 2) NOT NULL,
+    Sexo CHAR(1) NOT NULL,
     Cor VARCHAR(20) NOT NULL
-)
+);

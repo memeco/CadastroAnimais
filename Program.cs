@@ -51,10 +51,12 @@ static void AdicionarAnimal()
     int idade = int.Parse(Console.ReadLine());
     Console.Write("Peso: ");
     decimal peso = decimal.Parse(Console.ReadLine());
+    Console.Write("Sexo: ");
+    char sexo= char.Parse(Console.ReadLine());
     Console.Write("Cor: ");
     string cor = Console.ReadLine();
 
-    var animal = new Animal(nome, especie, raca, idade, peso, cor);
+    var animal = new Animal(nome, especie, raca, idade, peso, sexo, cor);
     animal.AddAnimal();
     Console.WriteLine("Animal adicionado com sucesso!");
 }
@@ -62,9 +64,16 @@ static void AdicionarAnimal()
 static void ListarAnimais()
 {
     List<Animal> animais = Animal.GetAnimais();
+
+    if (animais.Count == 0)
+    {
+        Console.WriteLine("Nenhum animal encontrado.");
+        return;
+    }
+
     foreach (var a in animais)
     {
-        Console.WriteLine($"ID: {a.ID_Animal}, Nome: {a.Nome}, Espécie: {a.Especie}, Raça: {a.Raca}, Idade: {a.Idade}, Peso: {a.Peso}, Cor: {a.Cor}");
+        Console.WriteLine($"ID: {a.ID_Animal}, Nome: {a.Nome}, Espécie: {a.Especie}, Raça: {a.Raca}, Idade: {a.Idade}, Peso: {a.Peso}, Sexo: {a.Sexo}, Cor: {a.Cor}");
     }
 }
 
@@ -73,10 +82,17 @@ static void BuscarAnimais()
     Console.Write("ID do Animal a ser buscado: ");
     int id=int.Parse(Console.ReadLine());
 
+    var encontraranimal = Animal.GetAnimais().Find(a => a.ID_Animal == id);
+    if (encontraranimal == null)
+    {
+        Console.WriteLine("Animal não encontrado.");
+        return;
+    }
+
     List<Animal> animais=Animal.SearchAnimal(id);
     foreach (var a in animais)
     {
-        Console.WriteLine($"ID: {a.ID_Animal}, Nome: {a.Nome}, Espécie: {a.Especie}, Raça: {a.Raca}, Idade: {a.Idade}, Peso: {a.Peso}, Cor: {a.Cor}");
+        Console.WriteLine($"ID: {a.ID_Animal}, Nome: {a.Nome}, Espécie: {a.Especie}, Raça: {a.Raca}, Idade: {a.Idade}, Peso: {a.Peso}, Sexo: {a.Sexo}, Cor: {a.Cor}");
     }
 
 }
@@ -93,40 +109,98 @@ static void AtualizarAnimal()
         return;
     }
 
-    Console.Write("Novo Nome (deixe vazio para manter o atual): ");
-    string nome = Console.ReadLine();
-    if (!string.IsNullOrEmpty(nome)) animal.UpdateDetails(nome, animal.Especie, animal.Raca, animal.Idade, animal.Peso, animal.Cor);
+    Console.WriteLine("Escolha o que deseja atualizar:");
+        Console.WriteLine("1. Nome");
+        Console.WriteLine("2. Espécie");
+        Console.WriteLine("3. Raça");
+        Console.WriteLine("4. Idade");
+        Console.WriteLine("5. Peso");
+        Console.WriteLine("6. Sexo");
+        Console.WriteLine("7. Cor");
+        Console.Write("Opção: ");
+        var opcao = int.Parse(Console.ReadLine());
+    
+    if(opcao==1)
+    {
+        Console.Write("Novo Nome: ");
+        string nome = Console.ReadLine();
+        animal.UpdateDetails(nome, animal.Especie, animal.Raca, animal.Idade, animal.Peso, animal.Sexo, animal.Cor);
+    }
 
-    Console.Write("Nova Espécie (deixe vazio para manter o atual): ");
-    string especie = Console.ReadLine();
-    if (!string.IsNullOrEmpty(especie)) animal.UpdateDetails(animal.Nome, especie, animal.Raca, animal.Idade, animal.Peso, animal.Cor);
+    if(opcao==2)
+    {
+        Console.Write("Nova Espécie: ");
+        string especie = Console.ReadLine();
+        animal.UpdateDetails(animal.Nome, especie, animal.Raca, animal.Idade, animal.Peso, animal.Sexo, animal.Cor);
+    }
 
-    Console.Write("Nova Raça (deixe vazio para manter o atual): ");
-    string raca = Console.ReadLine();
-    if (!string.IsNullOrEmpty(raca)) animal.UpdateDetails(animal.Nome, animal.Especie, raca, animal.Idade, animal.Peso, animal.Cor);
+    if(opcao==3)
+    {
+        Console.Write("Nova Raça: ");
+        string raca = Console.ReadLine();
+        animal.UpdateDetails(animal.Nome, animal.Especie, raca, animal.Idade, animal.Peso, animal.Sexo, animal.Cor);
+    }
 
-    Console.Write("Nova Idade (deixe vazio para manter o atual): ");
-    string idadeStr = Console.ReadLine();
-    int idade;
-    if (!string.IsNullOrEmpty(idadeStr) && int.TryParse(idadeStr, out idade)) animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, idade, animal.Peso, animal.Cor);
+    if(opcao==4)
+    {
+        Console.Write("Nova Idade: ");
+        string idadeStr = Console.ReadLine();
+        int idade;
+        int.TryParse(idadeStr, out idade);
+        animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, idade, animal.Peso, animal.Sexo, animal.Cor);
+    }
 
-    Console.Write("Novo Peso (deixe vazio para manter o atual): ");
-    string pesoStr = Console.ReadLine();
-    decimal peso;
-    if (!string.IsNullOrEmpty(pesoStr) && decimal.TryParse(pesoStr, out peso)) animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, animal.Idade, peso, animal.Cor);
+    if(opcao==5)
+    {
+        Console.Write("Novo Peso: ");
+        string pesoStr = Console.ReadLine();
+        decimal peso;
+        decimal.TryParse(pesoStr, out peso);
+        animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, animal.Idade, peso, animal.Sexo, animal.Cor);
+    }
 
-    Console.Write("Nova Cor (deixe vazio para manter o atual): ");
-    string cor = Console.ReadLine();
-    if (!string.IsNullOrEmpty(cor)) animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, animal.Idade, animal.Peso, cor);
+    if(opcao==6)
+    {
+        Console.Write("Novo Sexo: ");
+        string sexoStr = Console.ReadLine();
+        char sexo;
+        char.TryParse(sexoStr, out sexo);
+        animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, animal.Idade, animal.Peso, sexo, animal.Cor);
+    }
+
+    if(opcao==7)
+    {
+        Console.Write("Nova Cor: ");
+        string cor = Console.ReadLine();
+        animal.UpdateDetails(animal.Nome, animal.Especie, animal.Raca, animal.Idade, animal.Peso, animal.Sexo, cor);
+    }
 
     animal.UpdateAnimal();
     Console.WriteLine("Animal atualizado com sucesso!");
+
+    Console.WriteLine("Deseja atualizar outro Animal?");
+        Console.WriteLine("1. Sim");
+        Console.WriteLine("2. Não");
+        Console.Write("Opção: ");
+        var recomecar = int.Parse(Console.ReadLine());
+    
+    if(recomecar==1)
+    {
+        AtualizarAnimal();
+    }
 }
 
 static void DeletarAnimal()
 {
     Console.Write("ID do Animal a ser deletado: ");
     int id = int.Parse(Console.ReadLine());
+
+    var encontraranimal = Animal.GetAnimais().Find(a => a.ID_Animal == id);
+    if (encontraranimal == null)
+    {
+        Console.WriteLine("Animal não encontrado.");
+        return;
+    }
 
     Animal.DeleteAnimal(id);
     Console.WriteLine("Animal deletado com sucesso!");
